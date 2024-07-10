@@ -1760,25 +1760,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
         user = query.from_user.id
         ident, key = query.data.split("#")
         settings = await get_settings(query.message.chat.id)
-        lazyuser_id = query.from_user.id
-        try:
-            if int(query.from_user.id) not in [query.message.reply_to_message.from_user.id, 0]:
-                return await query.answer(
-                    f"⚠️ ʜᴇʟʟᴏ {query.from_user.first_name},\nᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇǫᴜᴇꜱᴛ,\nʀᴇǫᴜᴇꜱᴛ ʏᴏᴜʀ'ꜱ...",
-                    show_alert=True,
-                )
-        except:
-            pass
-        try:
-            if temp.SHORT.get(lazyuser_id)==None:
-                return await query.answer(f"<b>Please Search Again</b>", show_alert=True)
-            else:
-                chat_id = temp.SHORT.get(lazyuser_id)
-        except Exception as e:
-            print(e)
         try:
             if settings['url_mode'] and not await db.has_prime_status(user):
-                ghost_url = await get_shortlink(chat_id, f"https://telegram.me/{temp.U_NAME}?start=allfiles_{key}")
+                ghost_url = await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=allfiles_{key}")
                 await query.answer(url=ghost_url)
                 return
             else:
